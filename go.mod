@@ -3,6 +3,7 @@ module github.com/rdj68/marketplace-project
 go 1.21.1
 
 require (
+
 	github.com/SaiNageswarS/go-api-boot v0.1.34 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
