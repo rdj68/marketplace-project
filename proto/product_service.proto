@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "github.com/rdj68/marketplace-project/proto";
+
+service ProductService {
+  rpc AddProduct (NewProductData) returns (ProductId);
+  rpc FindProduct (ProductSearchParam) returns (MultipleProductData);
+}
+message ProductId {
+    string productId = 1;
+  }
+message NewProductData {
+    string name = 2;
+    string category = 3;
+    string description = 4;
+    int32 price = 5;          //last two digits represent paisa 
+    string ImageURL = 6;
+    string shopId = 7;
+    map<string, string> attributes = 8;
+  }
+  
+  message ProductData {
+    string id = 1;
+    string name = 2;
+    string category = 3;
+    string description = 4;
+    int32 price = 5;          //last two digits represent paisa 
+    string ImageURL = 6;
+    string shopId = 7;
+    map<string, string> attributes = 8;
+  }
+  message ProductSearchParam {
+    string name = 1;
+    int32 maxPrice = 2;
+    int32 minPrice = 3;
+    string category = 4;
+  }
+  message MultipleProductData {
+    repeated ProductData productData = 1;
+  }

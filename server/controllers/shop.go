@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strings"
 
 	pb "github.com/rdj68/marketplace-project/proto"
 	"github.com/rdj68/marketplace-project/server/model"
@@ -13,8 +14,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-type MarketplaceServer struct {
-	pb.UnimplementedMarketplaceServer
+type ShopServiceServer struct {
+	pb.UnimplementedShopServiceServer
 }
 
 /*
@@ -22,7 +23,7 @@ type MarketplaceServer struct {
 Add shop details to databaase and return the objectid of the shop
 *
 */
-func (s *MarketplaceServer) AddShop(ctx context.Context, in *pb.NewShopData) (*pb.Id, error) {
+func (s *ShopServiceServer) AddShop(ctx context.Context, in *pb.NewShopData) (*pb.Id, error) {
 	client := odm.GetClient()
 	coll := client.Database("marketplace").Collection("shop")
 
@@ -37,7 +38,7 @@ func (s *MarketplaceServer) AddShop(ctx context.Context, in *pb.NewShopData) (*p
 	}
 
 	shop := &model.Shop{
-		Name: in.GetName(),
+		Name: strings.ToLower(in.GetName()),
 		Location: model.Location{
 			Type:        "Point",
 			Coordinates: []float64{in.Location.GetLongitude(), in.Location.GetLattitude()},
@@ -59,7 +60,7 @@ func (s *MarketplaceServer) AddShop(ctx context.Context, in *pb.NewShopData) (*p
 Find shop details, map it to shopData and returns shopData. If no details found returns nil, error
 *
 */
-func (s *MarketplaceServer) FindShopById(ctx context.Context, in *pb.Id) (*pb.ShopData, error) {
+func (s *ShopServiceServer) FindShopById(ctx context.Context, in *pb.Id) (*pb.ShopData, error) {
 	client := odm.GetClient()
 	coll := client.Database("marketplace").Collection("shop")
 
@@ -78,7 +79,7 @@ func (s *MarketplaceServer) FindShopById(ctx context.Context, in *pb.Id) (*pb.Sh
 		}
 		return nil, err
 	}
-	return &pb.ShopData{}, nil
+	return &pb.ShopData{Name: result.Name, Id: result.ID.String(), Location: &pb.Location{Longitude: result.Location.Coordinates[0], Lattitude: result.Location.Coordinates[1]}, OperationTiming: result.OperationsTiming}, nil
 }
 
 /*
@@ -86,7 +87,7 @@ func (s *MarketplaceServer) FindShopById(ctx context.Context, in *pb.Id) (*pb.Sh
 filter shops that are close to user's coordinates by max 100km
 *
 */
-func (s *MarketplaceServer) FindShopNearMe(ctx context.Context, in *pb.Location) (*pb.MultipleShopData, error) {
+func (s *ShopServiceServer) FindShopNearMe(ctx context.Context, in *pb.Location) (*pb.MultipleShopData, error) {
 	client := odm.GetClient()
 	coll := client.Database("marketplace").Collection("shop")
 	diameter := 1_000_000

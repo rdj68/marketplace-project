@@ -31,7 +31,9 @@ func main() {
 
 	//setup grpc server
 	s := grpc.NewServer()
-	pb.RegisterMarketplaceServer(s, &ct.MarketplaceServer{})
+	pb.RegisterProductServiceServer(s, &ct.ProductServiceServer{})
+
+	pb.RegisterShopServiceServer(s, &ct.ShopServiceServer{})
 	log.Printf("server listening at %v", lis.Addr())
 	if err := s.Serve(lis); err != nil {
 		log.Fatal(err)

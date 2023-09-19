@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strings"
 
 	pb "github.com/rdj68/marketplace-project/proto"
 	"github.com/rdj68/marketplace-project/server/model"
@@ -12,12 +13,16 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+type ProductServiceServer struct {
+	pb.UnimplementedProductServiceServer
+}
+
 /*
 *
 Add product details to the database and return the product id
 *
 */
-func (s *MarketplaceServer) AddProduct(ctx context.Context, in *pb.NewProductData) (*pb.Id, error) {
+func (s *ProductServiceServer) AddProduct(ctx context.Context, in *pb.NewProductData) (*pb.ProductId, error) {
 	client := odm.GetClient()
 	coll := client.Database("marketplace").Collection("products")
 
@@ -26,9 +31,9 @@ func (s *MarketplaceServer) AddProduct(ctx context.Context, in *pb.NewProductDat
 		panic(err)
 	}
 	product := model.Product{
-		Name:        in.Name,
+		Name:        strings.ToLower(in.Name),
 		Description: in.Description,
-		Category:    in.Category,
+		Category:    strings.ToLower(in.Category),
 		Price:       in.Price,
 		ImageURL:    in.ImageURL,
 		ShopID:      shopId,
@@ -40,18 +45,18 @@ func (s *MarketplaceServer) AddProduct(ctx context.Context, in *pb.NewProductDat
 		return nil, err
 	}
 	fmt.Println("", res)
-	return &pb.Id{Id: res.InsertedID.(primitive.ObjectID).Hex()}, nil
+	return &pb.ProductId{ProductId: res.InsertedID.(primitive.ObjectID).Hex()}, nil
 }
 
-func (s *MarketplaceServer) FindProduct(ctx context.Context, in *pb.ProductSearchParam) (*pb.MultipleProductData, error) {
+func (s *ProductServiceServer) FindProduct(ctx context.Context, in *pb.ProductSearchParam) (*pb.MultipleProductData, error) {
 	client := odm.GetClient()
 	coll := client.Database("marketplace").Collection("products")
 
 	filter := bson.D{
 		{Key: "$and",
 			Value: bson.A{
-				bson.D{{Key: "product_name", Value: in.GetName()}},
-				bson.D{{Key: "category", Value: in.GetCategory()}},
+				bson.D{{Key: "product_name", Value: strings.ToLower(in.GetName())}},
+				bson.D{{Key: "category", Value: strings.ToLower(in.GetCategory())}},
 				bson.D{{Key: "price", Value: bson.D{{Key: "$lt", Value: in.GetMaxPrice()}}}},
 				bson.D{{Key: "price", Value: bson.D{{Key: "$gt", Value: in.GetMinPrice()}}}},
 			},

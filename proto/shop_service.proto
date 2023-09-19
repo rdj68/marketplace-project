@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "github.com/rdj68/marketplace-project/proto";
+
+service ShopService {
+  rpc AddShop (NewShopData) returns (Id);
+  rpc FindShopById (Id) returns (ShopData);
+  rpc FindShopNearMe (Location) returns (MultipleShopData);
+}
+
+message Id {
+  string id = 1;
+}
+message ShopData {
+  string id = 1;
+  string name = 2;
+  Location location = 3;
+  repeated string operationTiming = 4;
+  repeated string users = 5;
+}
+message NewShopData {
+    string name = 1;
+    Location location = 2;
+    repeated string operationTiming = 3;
+    repeated string users = 4;
+}
+message Location {
+  double lattitude = 1;
+  double longitude = 2;
+}
+
+message MultipleShopData {
+  repeated ShopData ShopData = 1;
+}
