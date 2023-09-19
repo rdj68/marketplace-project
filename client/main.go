@@ -23,13 +23,14 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
 	defer cancel()
 
-	// shopData := &pb.NewShopData{Name: "rdjshop", Users: []string{"65082c66e9a0c3dd7b76cb9e"}, Location: []float64{4.2, 5.5}, OperationTiming: []string{"12:00", "1:00"}}
+	// shopData := &pb.NewShopData{Name: "rdjshop", Users: []string{"65082c66e9a0c3dd7b76cb9e"}, Location: &pb.Location{Longitude: 4.2, Lattitude: 5.5}, OperationTiming: []string{"12:00", "1:00"}}
 	// AddShop(ctx, c, shopData)
 	// FindShopById(ctx, c, "65082c66e9a0c3dd7b76cb9e")
-	FindShopNearMe(ctx, c, 4.2, 5.10005)
+	// FindShopNearMe(ctx, c, 4.2, 5.10005)
 
+	productData := &pb.NewProductData{Name: "fertilizer", Description: "A organic fertilizer", Category: "farming", Price: 10000, ShopId: "65082c66e9a0c3dd7b76cb9e"}
+	AddProduct(ctx, c, productData)
 }
-
 func AddShop(ctx context.Context, c pb.MarketplaceClient, shopData *pb.NewShopData) {
 	r, err := c.AddShop(ctx, shopData)
 	if err != nil {
@@ -57,4 +58,12 @@ func FindShopNearMe(ctx context.Context, c pb.MarketplaceClient, lattitude float
 	for _, x := range r.ShopData {
 		fmt.Printf("Shop name: %v  operation timing: %v\n", x.Name, x.OperationTiming)
 	}
+}
+
+func AddProduct(ctx context.Context, c pb.MarketplaceClient, productData *pb.NewProductData) {
+	r, err := c.AddProduct(ctx, productData)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Product inserted", r)
 }

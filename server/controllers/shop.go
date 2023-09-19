@@ -19,7 +19,7 @@ type MarketplaceServer struct {
 
 /*
 *
-function to insert shop data into the database
+Add shop details to databaase and return the objectid of the shop
 *
 */
 func (s *MarketplaceServer) AddShop(ctx context.Context, in *pb.NewShopData) (*pb.Id, error) {
@@ -40,7 +40,7 @@ func (s *MarketplaceServer) AddShop(ctx context.Context, in *pb.NewShopData) (*p
 		Name: in.GetName(),
 		Location: model.Location{
 			Type:        "Point",
-			Coordinates: in.GetLocation(),
+			Coordinates: []float64{in.Location.GetLongitude(), in.Location.GetLattitude()},
 		},
 		Users:            userList,
 		OperationsTiming: in.GetOperationTiming(),
@@ -56,7 +56,7 @@ func (s *MarketplaceServer) AddShop(ctx context.Context, in *pb.NewShopData) (*p
 
 /*
 *
-function to find a shop by its id
+Find shop details, map it to shopData and returns shopData. If no details found returns nil, error
 *
 */
 func (s *MarketplaceServer) FindShopById(ctx context.Context, in *pb.Id) (*pb.ShopData, error) {
@@ -83,7 +83,7 @@ func (s *MarketplaceServer) FindShopById(ctx context.Context, in *pb.Id) (*pb.Sh
 
 /*
 *
-finds shops near the user in a range of 100km of user
+filter shops that are close to user's coordinates by max 100km
 *
 */
 func (s *MarketplaceServer) FindShopNearMe(ctx context.Context, in *pb.Location) (*pb.MultipleShopData, error) {
@@ -124,7 +124,7 @@ func (s *MarketplaceServer) FindShopNearMe(ctx context.Context, in *pb.Location)
 	//store the results in pb.shopdata array to share over grpc
 	var resultsShop []*pb.ShopData
 	for _, x := range result {
-		resultsShop = append(resultsShop, &pb.ShopData{Name: x.Name, Location: x.Location.Coordinates, OperationTiming: x.OperationsTiming})
+		resultsShop = append(resultsShop, &pb.ShopData{Name: x.Name, Location: &pb.Location{Longitude: x.Location.Coordinates[0], Lattitude: x.Location.Coordinates[1]}, OperationTiming: x.OperationsTiming})
 	}
 	return &pb.MultipleShopData{ShopData: resultsShop}, nil
 }

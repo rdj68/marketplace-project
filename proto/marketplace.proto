@@ -18,14 +18,14 @@ message Id {
 message ShopData {
   string id = 1;
   string name = 2;
-  repeated double location = 3;
+  Location location = 3;
   repeated string operationTiming = 4;
   repeated string users = 5;
 }
 
 message NewShopData {
     string name = 1;
-    repeated double location = 2;
+    Location location = 2;
     repeated string operationTiming = 3;
     repeated string users = 4;
 }
@@ -35,7 +35,7 @@ message NewProductData {
   string name = 2;
   string category = 3;
   string description = 4;
-  float price = 5;
+  int32 price = 5;          //last two digits represent paisa 
   string ImageURL = 6;
   string shopId = 7;
   map<string, string> attributes = 8;

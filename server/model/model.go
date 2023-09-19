@@ -23,13 +23,12 @@ type Location struct {
 // 	ClosingTime string `bson:"closing_time"`
 // }
 
-// Product represents product entity
 type Product struct {
 	ID          primitive.ObjectID `bson:"_id,omitempty"`
 	Name        string             `bson:"name"`
 	Description string             `bson:"description"`
 	Category    string             `bson:"category"`
-	Price       float32            `bson:"price"`
+	Price       int32              `bson:"price"`
 	ImageURL    string             `bson:"image_url"`
 	Attributes  map[string]string  `bson:"attributes"`
 	ShopID      primitive.ObjectID `bson:"shop_id"`
@@ -42,7 +41,6 @@ type InventoryItem struct {
 	InStock   bool               `bson:"in_stock"`
 }
 
-// ProductServiceability represents product serviceability
 type ProductServiceability struct {
 	ID          primitive.ObjectID `bson:"_id,omitempty"`
 	ProductID   primitive.ObjectID `bson:"product_id"`
