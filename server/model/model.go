@@ -46,3 +46,9 @@ type ProductServiceability struct {
 	ProductID   primitive.ObjectID `bson:"product_id"`
 	Serviceable bool               `bson:"serviceable"`
 }
+
+type User struct {
+	ID       primitive.ObjectID `bson:"_id,omitempty"`
+	Name     string             `bson:"user_name"`
+	Location Location           `bson:"location"`
+}

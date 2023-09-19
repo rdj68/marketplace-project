@@ -43,11 +43,21 @@ func (s *MarketplaceServer) AddProduct(ctx context.Context, in *pb.NewProductDat
 	return &pb.Id{Id: res.InsertedID.(primitive.ObjectID).Hex()}, nil
 }
 
-func (s *MarketplaceServer) FindProductByName(ctx context.Context, in *pb.Name) (*pb.MultipleProductData, error) {
+func (s *MarketplaceServer) FindProduct(ctx context.Context, in *pb.ProductSearchParam) (*pb.MultipleProductData, error) {
 	client := odm.GetClient()
 	coll := client.Database("marketplace").Collection("products")
 
-	filter := bson.D{{Key: "product_name", Value: in.GetName()}}
+	filter := bson.D{
+		{Key: "$and",
+			Value: bson.A{
+				bson.D{{Key: "product_name", Value: in.GetName()}},
+				bson.D{{Key: "category", Value: in.GetCategory()}},
+				bson.D{{Key: "price", Value: bson.D{{Key: "$lt", Value: in.GetMaxPrice()}}}},
+				bson.D{{Key: "price", Value: bson.D{{Key: "$gt", Value: in.GetMinPrice()}}}},
+			},
+		},
+	}
+
 	cursor, err := coll.Find(context.TODO(), filter)
 	if err != nil {
 		log.Print(err)

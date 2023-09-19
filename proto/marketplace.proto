@@ -9,14 +9,17 @@ service Marketplace {
   rpc FindShopById (Id) returns (ShopData);
   rpc FindShopNearMe (Location) returns (MultipleShopData);
   rpc AddProduct (NewProductData) returns (Id);
-  rpc FindProductByName (Name) returns (MultipleProductData);
+  rpc FindProduct (ProductSearchParam) returns (MultipleProductData);
 }
 
 message Id {
   string id = 1;
 }
-message Name {
+message ProductSearchParam {
   string name = 1;
+  int32 maxPrice = 2;
+  int32 minPrice = 3;
+  string category = 4;
 }
 
 message ShopData {

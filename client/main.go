@@ -30,7 +30,7 @@ func main() {
 
 	// productData := &pb.NewProductData{Name: "fertilizer", Description: "A organic fertilizer", Category: "farming", Price: 10000, ShopId: "65082c66e9a0c3dd7b76cb9e"}
 	// AddProduct(ctx, c, productData)
-	FindProductByName(ctx, c, "fertilizer")
+	FindProduct(ctx, c, "fertilizer", 100000, 9999, "farming")
 }
 func AddShop(ctx context.Context, c pb.MarketplaceClient, shopData *pb.NewShopData) {
 	r, err := c.AddShop(ctx, shopData)
@@ -69,8 +69,8 @@ func AddProduct(ctx context.Context, c pb.MarketplaceClient, productData *pb.New
 	fmt.Println("Product inserted", r)
 }
 
-func FindProductByName(ctx context.Context, c pb.MarketplaceClient, name string) {
-	r, err := c.FindProductByName(ctx, &pb.Name{Name: name})
+func FindProduct(ctx context.Context, c pb.MarketplaceClient, name string, maxPrice int32, minPrice int32, category string) {
+	r, err := c.FindProduct(ctx, &pb.ProductSearchParam{Name: name, MaxPrice: maxPrice, MinPrice: minPrice, Category: category})
 	if err != nil {
 		log.Fatal(err)
 	}
