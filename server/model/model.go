@@ -25,7 +25,7 @@ type Location struct {
 
 type Product struct {
 	ID          primitive.ObjectID `bson:"_id,omitempty"`
-	Name        string             `bson:"name"`
+	Name        string             `bson:"product_name"`
 	Description string             `bson:"description"`
 	Category    string             `bson:"category"`
 	Price       int32              `bson:"price"`

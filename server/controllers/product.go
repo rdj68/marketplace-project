@@ -3,16 +3,18 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"log"
 
 	pb "github.com/rdj68/marketplace-project/proto"
 	"github.com/rdj68/marketplace-project/server/model"
 	odm "github.com/rdj68/marketplace-project/server/odm"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 /*
 *
-function to insert product data into the database
+Add product details to the database and return the product id
 *
 */
 func (s *MarketplaceServer) AddProduct(ctx context.Context, in *pb.NewProductData) (*pb.Id, error) {
@@ -39,4 +41,29 @@ func (s *MarketplaceServer) AddProduct(ctx context.Context, in *pb.NewProductDat
 	}
 	fmt.Println("", res)
 	return &pb.Id{Id: res.InsertedID.(primitive.ObjectID).Hex()}, nil
+}
+
+func (s *MarketplaceServer) FindProductByName(ctx context.Context, in *pb.Name) (*pb.MultipleProductData, error) {
+	client := odm.GetClient()
+	coll := client.Database("marketplace").Collection("products")
+
+	filter := bson.D{{Key: "product_name", Value: in.GetName()}}
+	cursor, err := coll.Find(context.TODO(), filter)
+	if err != nil {
+		log.Print(err)
+		return nil, err
+	}
+	var result []model.Product
+	if err := cursor.All(context.TODO(), &result); err != nil {
+		log.Print(err)
+		return nil, err
+	}
+	var resultProductData []*pb.ProductData
+	for _, x := range result {
+		resultProductData = append(resultProductData,
+			&pb.ProductData{Id: x.ID.Hex(), Name: x.Name, Description: x.Description,
+				Category: x.Category, Price: x.Price, ImageURL: x.ImageURL,
+				Attributes: x.Attributes, ShopId: x.ShopID.Hex()})
+	}
+	return &pb.MultipleProductData{ProductData: resultProductData}, nil
 }

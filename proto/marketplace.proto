@@ -9,10 +9,14 @@ service Marketplace {
   rpc FindShopById (Id) returns (ShopData);
   rpc FindShopNearMe (Location) returns (MultipleShopData);
   rpc AddProduct (NewProductData) returns (Id);
+  rpc FindProductByName (Name) returns (MultipleProductData);
 }
 
 message Id {
   string id = 1;
+}
+message Name {
+  string name = 1;
 }
 
 message ShopData {
@@ -31,6 +35,16 @@ message NewShopData {
 }
 
 message NewProductData {
+  string name = 2;
+  string category = 3;
+  string description = 4;
+  int32 price = 5;          //last two digits represent paisa 
+  string ImageURL = 6;
+  string shopId = 7;
+  map<string, string> attributes = 8;
+}
+
+message ProductData {
   string id = 1;
   string name = 2;
   string category = 3;
@@ -40,6 +54,7 @@ message NewProductData {
   string shopId = 7;
   map<string, string> attributes = 8;
 }
+
 message Location {
   double lattitude = 1;
   double longitude = 2;
@@ -47,4 +62,7 @@ message Location {
 
 message MultipleShopData {
   repeated ShopData ShopData = 1;
+}
+message MultipleProductData {
+  repeated ProductData productData = 1;
 }

@@ -28,8 +28,9 @@ func main() {
 	// FindShopById(ctx, c, "65082c66e9a0c3dd7b76cb9e")
 	// FindShopNearMe(ctx, c, 4.2, 5.10005)
 
-	productData := &pb.NewProductData{Name: "fertilizer", Description: "A organic fertilizer", Category: "farming", Price: 10000, ShopId: "65082c66e9a0c3dd7b76cb9e"}
-	AddProduct(ctx, c, productData)
+	// productData := &pb.NewProductData{Name: "fertilizer", Description: "A organic fertilizer", Category: "farming", Price: 10000, ShopId: "65082c66e9a0c3dd7b76cb9e"}
+	// AddProduct(ctx, c, productData)
+	FindProductByName(ctx, c, "fertilizer")
 }
 func AddShop(ctx context.Context, c pb.MarketplaceClient, shopData *pb.NewShopData) {
 	r, err := c.AddShop(ctx, shopData)
@@ -66,4 +67,12 @@ func AddProduct(ctx context.Context, c pb.MarketplaceClient, productData *pb.New
 		log.Fatal(err)
 	}
 	fmt.Println("Product inserted", r)
+}
+
+func FindProductByName(ctx context.Context, c pb.MarketplaceClient, name string) {
+	r, err := c.FindProductByName(ctx, &pb.Name{Name: name})
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("", r)
 }
