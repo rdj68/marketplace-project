@@ -1,5 +1,4 @@
 /server/.env
 /proto/marketplace_grpc.pb.go
 /proto/marketplace.pb.go
-/server/services
 /client
