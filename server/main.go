@@ -2,41 +2,34 @@ package main
 
 import (
 	"log"
-	"net"
 
+	"github.com/SaiNageswarS/go-api-boot/server"
 	"github.com/joho/godotenv"
-	//"github.com/rdj68/marketplace-project/server/model"
-	//odm "github.com/rdj68/marketplace-project/server/odm"
 	pb "github.com/rdj68/marketplace-project/proto"
-	ct "github.com/rdj68/marketplace-project/server/controllers"
-	"google.golang.org/grpc"
+	ct "github.com/rdj68/marketplace-project/server/services"
+	"github.com/rs/cors"
 )
 
 const (
-	port    = ":50051"
-	network = "tcp"
+	grpcPort = ":50051"
+	webPort  = ":8081"
 )
 
 func main() {
 	//Load environment variables
-	if err := godotenv.Load(); err != nil {
+	if err := godotenv.Load("./.env"); err != nil {
 		log.Println("No .env file found")
 	}
+	// Load secrets from Keyvault and config through godotenv.
+	server.LoadSecretsIntoEnv(true)
+	corsConfig := cors.New(
+		cors.Options{
+			AllowedHeaders: []string{"*"},
+		})
+	bootServer := server.NewGoApiBoot(corsConfig)
 
-	//Listen at port 50051
-	lis, err := net.Listen(network, port)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	//setup grpc server
-	s := grpc.NewServer()
-	pb.RegisterProductServiceServer(s, &ct.ProductServiceServer{})
-
-	pb.RegisterShopServiceServer(s, &ct.ShopServiceServer{})
-	log.Printf("server listening at %v", lis.Addr())
-	if err := s.Serve(lis); err != nil {
-		log.Fatal(err)
-	}
+	pb.RegisterProductServiceServer(bootServer.GrpcServer, &ct.ProductServiceServer{})
+	pb.RegisterShopServiceServer(bootServer.GrpcServer, &ct.ShopServiceServer{})
+	bootServer.Start(grpcPort, webPort)
 
 }
