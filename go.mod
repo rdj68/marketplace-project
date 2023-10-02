@@ -4,7 +4,6 @@ go 1.21.1
 
 replace github.com/SaiNageswarS/go-api-boot => ./go-api-boot
 
-
 require (
 	github.com/SaiNageswarS/go-api-boot v0.1.34
 	github.com/joho/godotenv v1.5.1
@@ -32,7 +31,7 @@ require (
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 // indirect
-	github.com/jinzhu/copier v0.3.2 // indirect
+	github.com/jinzhu/copier v0.4.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
 	github.com/kylelemons/godebug v1.1.0 // indirect

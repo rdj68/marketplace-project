@@ -1,17 +1,13 @@
 package db
 
 import (
-	"context"
-	"fmt"
-	"log"
-	"strings"
-
+	"github.com/SaiNageswarS/go-api-boot/logger"
 	"github.com/SaiNageswarS/go-api-boot/odm"
 	pb "github.com/rdj68/marketplace-project/proto"
 	"github.com/rdj68/marketplace-project/server/model"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.uber.org/zap"
 )
 
 // TODO implement abstract repository
@@ -19,33 +15,11 @@ type shopRepository struct {
 	odm.AbstractRepository[model.Shop]
 }
 
-func AddShop(in *pb.NewShopData) (*mongo.InsertOneResult, error) {
-	client := odm.GetClient()
-	coll := client.Database("marketplace").Collection("shop")
+func (s *shopRepository) AddShop(shop *model.Shop) (*string, error) {
 
-	//convert the string user list to object id user list
-	var userList []primitive.ObjectID
-	for _, x := range in.GetUsers() {
-		id, err := primitive.ObjectIDFromHex(x)
-		if err != nil {
-			continue
-		}
-		userList = append(userList, id)
-	}
+	err := <-s.Save(shop)
 
-	shop := &model.Shop{
-		Name: strings.ToLower(in.GetName()),
-		Location: model.Location{
-			Type:        "Point",
-			Coordinates: []float64{in.Location.GetLongitude(), in.Location.GetLattitude()},
-		},
-		Users:            userList,
-		OperationsTiming: in.GetOperationTiming(),
-	}
-
-	res, err := coll.InsertOne(context.TODO(), shop)
-
-	return res, err
+	return &shop.ID, err
 }
 
 /*
@@ -53,26 +27,24 @@ func AddShop(in *pb.NewShopData) (*mongo.InsertOneResult, error) {
 Find shop details, map it to shopData and returns shopData. If no details found returns nil, error
 *
 */
-func FindShopById(in *pb.Id) (*model.Shop, error) {
-	client := odm.GetClient()
-	coll := client.Database("marketplace").Collection("shop")
+func (s *shopRepository) FindShopById(id string) (*model.Shop, error) {
 
-	id, err := primitive.ObjectIDFromHex(in.GetId())
-	if err != nil {
-		log.Print(err)
-		return nil, err
-	}
+	shopResChan, errChan := s.FindOneById(id)
 
-	filter := bson.D{{Key: "_id", Value: id}}
-	var result model.Shop
-	err = coll.FindOne(context.TODO(), filter).Decode(&result)
-	if err != nil {
+	shop := &model.Shop{}
+
+	select {
+	case shopRes := <-shopResChan:
+		shop = shopRes
+	case err := <-errChan:
 		if err == mongo.ErrNoDocuments {
-			fmt.Println("No document Found")
+			logger.Info("No shop with the given id exists", zap.String("shopId: ", id))
+			return nil, err
 		}
-		return nil, err
+
+		logger.Error("Failed getting shop", zap.String("userId", id), zap.Error(err))
 	}
-	return &result, nil
+	return shop, nil
 }
 
 /*
@@ -80,19 +52,7 @@ func FindShopById(in *pb.Id) (*model.Shop, error) {
 filter shops that are close to user's coordinates by max 100km
 *
 */
-func FindShopNearMe(in *pb.Location) ([]model.Shop, error) {
-	client := odm.GetClient()
-	coll := client.Database("marketplace").Collection("shop")
-	diameter := 1_000_000
-
-	//index database for geospatial queries
-	indexModel := mongo.IndexModel{
-		Keys: bson.D{{Key: "location", Value: "2dsphere"}},
-	}
-	_, err := coll.Indexes().CreateOne(context.Background(), indexModel)
-	if err != nil {
-		panic(err)
-	}
+func (s *shopRepository) FindShopNearMe(in *pb.Location, diameter int) ([]model.Shop, error) {
 
 	//query to find shops near the location
 	filter := bson.M{
@@ -106,15 +66,19 @@ func FindShopNearMe(in *pb.Location) ([]model.Shop, error) {
 			},
 		},
 	}
-	cursor, err := coll.Find(context.Background(), filter)
-	if err != nil {
-		panic(err)
+	resultChan, errChan := s.Find(filter, nil, 20, 0)
+	shop := []model.Shop{}
+	select {
+	case shopRes := <-resultChan:
+		shop = shopRes
+	case err := <-errChan:
+		if err == mongo.ErrNoDocuments {
+			logger.Info("No shop nearby")
+			return nil, err
+		}
+
+		logger.Error("Failed getting shop", zap.Error(err))
 	}
 
-	var result []model.Shop
-	if err := cursor.All(context.Background(), &result); err != nil {
-		panic(err)
-	}
-
-	return result, nil
+	return shop, nil
 }

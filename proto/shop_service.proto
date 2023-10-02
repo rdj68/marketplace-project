@@ -22,9 +22,10 @@ message ShopData {
 }
 message NewShopData {
     string name = 1;
-    Location location = 2;
-    repeated string operationTiming = 3;
-    repeated string users = 4;
+    string phone = 2;
+    Location location = 3;
+    repeated string operationTiming = 4;
+    repeated string users = 5;
 }
 message Location {
   double lattitude = 1;

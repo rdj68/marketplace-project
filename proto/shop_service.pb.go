@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.28.1
 // 	protoc        v3.6.1
-// source: proto/shop_service.proto
+// source: shop_service.proto
 
 package proto
 
@@ -31,7 +31,7 @@ type Id struct {
 func (x *Id) Reset() {
 	*x = Id{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_shop_service_proto_msgTypes[0]
+		mi := &file_shop_service_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -44,7 +44,7 @@ func (x *Id) String() string {
 func (*Id) ProtoMessage() {}
 
 func (x *Id) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_shop_service_proto_msgTypes[0]
+	mi := &file_shop_service_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -57,7 +57,7 @@ func (x *Id) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Id.ProtoReflect.Descriptor instead.
 func (*Id) Descriptor() ([]byte, []int) {
-	return file_proto_shop_service_proto_rawDescGZIP(), []int{0}
+	return file_shop_service_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Id) GetId() string {
@@ -82,7 +82,7 @@ type ShopData struct {
 func (x *ShopData) Reset() {
 	*x = ShopData{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_shop_service_proto_msgTypes[1]
+		mi := &file_shop_service_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -95,7 +95,7 @@ func (x *ShopData) String() string {
 func (*ShopData) ProtoMessage() {}
 
 func (x *ShopData) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_shop_service_proto_msgTypes[1]
+	mi := &file_shop_service_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -108,7 +108,7 @@ func (x *ShopData) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ShopData.ProtoReflect.Descriptor instead.
 func (*ShopData) Descriptor() ([]byte, []int) {
-	return file_proto_shop_service_proto_rawDescGZIP(), []int{1}
+	return file_shop_service_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ShopData) GetId() string {
@@ -152,15 +152,16 @@ type NewShopData struct {
 	unknownFields protoimpl.UnknownFields
 
 	Name            string    `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Location        *Location `protobuf:"bytes,2,opt,name=location,proto3" json:"location,omitempty"`
-	OperationTiming []string  `protobuf:"bytes,3,rep,name=operationTiming,proto3" json:"operationTiming,omitempty"`
-	Users           []string  `protobuf:"bytes,4,rep,name=users,proto3" json:"users,omitempty"`
+	Phone           string    `protobuf:"bytes,2,opt,name=phone,proto3" json:"phone,omitempty"`
+	Location        *Location `protobuf:"bytes,3,opt,name=location,proto3" json:"location,omitempty"`
+	OperationTiming []string  `protobuf:"bytes,4,rep,name=operationTiming,proto3" json:"operationTiming,omitempty"`
+	Users           []string  `protobuf:"bytes,5,rep,name=users,proto3" json:"users,omitempty"`
 }
 
 func (x *NewShopData) Reset() {
 	*x = NewShopData{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_shop_service_proto_msgTypes[2]
+		mi := &file_shop_service_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -173,7 +174,7 @@ func (x *NewShopData) String() string {
 func (*NewShopData) ProtoMessage() {}
 
 func (x *NewShopData) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_shop_service_proto_msgTypes[2]
+	mi := &file_shop_service_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -186,12 +187,19 @@ func (x *NewShopData) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NewShopData.ProtoReflect.Descriptor instead.
 func (*NewShopData) Descriptor() ([]byte, []int) {
-	return file_proto_shop_service_proto_rawDescGZIP(), []int{2}
+	return file_shop_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *NewShopData) GetName() string {
 	if x != nil {
 		return x.Name
+	}
+	return ""
+}
+
+func (x *NewShopData) GetPhone() string {
+	if x != nil {
+		return x.Phone
 	}
 	return ""
 }
@@ -229,7 +237,7 @@ type Location struct {
 func (x *Location) Reset() {
 	*x = Location{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_shop_service_proto_msgTypes[3]
+		mi := &file_shop_service_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -242,7 +250,7 @@ func (x *Location) String() string {
 func (*Location) ProtoMessage() {}
 
 func (x *Location) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_shop_service_proto_msgTypes[3]
+	mi := &file_shop_service_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -255,7 +263,7 @@ func (x *Location) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Location.ProtoReflect.Descriptor instead.
 func (*Location) Descriptor() ([]byte, []int) {
-	return file_proto_shop_service_proto_rawDescGZIP(), []int{3}
+	return file_shop_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *Location) GetLattitude() float64 {
@@ -283,7 +291,7 @@ type MultipleShopData struct {
 func (x *MultipleShopData) Reset() {
 	*x = MultipleShopData{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_shop_service_proto_msgTypes[4]
+		mi := &file_shop_service_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -296,7 +304,7 @@ func (x *MultipleShopData) String() string {
 func (*MultipleShopData) ProtoMessage() {}
 
 func (x *MultipleShopData) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_shop_service_proto_msgTypes[4]
+	mi := &file_shop_service_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -309,7 +317,7 @@ func (x *MultipleShopData) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MultipleShopData.ProtoReflect.Descriptor instead.
 func (*MultipleShopData) Descriptor() ([]byte, []int) {
-	return file_proto_shop_service_proto_rawDescGZIP(), []int{4}
+	return file_shop_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *MultipleShopData) GetShopData() []*ShopData {
@@ -319,31 +327,32 @@ func (x *MultipleShopData) GetShopData() []*ShopData {
 	return nil
 }
 
-var File_proto_shop_service_proto protoreflect.FileDescriptor
+var File_shop_service_proto protoreflect.FileDescriptor
 
-var file_proto_shop_service_proto_rawDesc = []byte{
-	0x0a, 0x18, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x73, 0x68, 0x6f, 0x70, 0x5f, 0x73, 0x65, 0x72,
-	0x76, 0x69, 0x63, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x05, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x22, 0x14, 0x0a, 0x02, 0x49, 0x64, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x22, 0x9b, 0x01, 0x0a, 0x08, 0x53, 0x68, 0x6f, 0x70,
-	0x44, 0x61, 0x74, 0x61, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x02, 0x69, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x2b, 0x0a, 0x08, 0x6c, 0x6f, 0x63, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x2e, 0x4c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x08, 0x6c, 0x6f, 0x63,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x28, 0x0a, 0x0f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x54, 0x69, 0x6d, 0x69, 0x6e, 0x67, 0x18, 0x04, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0f,
-	0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x54, 0x69, 0x6d, 0x69, 0x6e, 0x67, 0x12,
-	0x14, 0x0a, 0x05, 0x75, 0x73, 0x65, 0x72, 0x73, 0x18, 0x05, 0x20, 0x03, 0x28, 0x09, 0x52, 0x05,
-	0x75, 0x73, 0x65, 0x72, 0x73, 0x22, 0x8e, 0x01, 0x0a, 0x0b, 0x4e, 0x65, 0x77, 0x53, 0x68, 0x6f,
-	0x70, 0x44, 0x61, 0x74, 0x61, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x2b, 0x0a, 0x08, 0x6c, 0x6f, 0x63,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x70, 0x72,
+var file_shop_service_proto_rawDesc = []byte{
+	0x0a, 0x12, 0x73, 0x68, 0x6f, 0x70, 0x5f, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x12, 0x05, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x14, 0x0a, 0x02, 0x49,
+	0x64, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69,
+	0x64, 0x22, 0x9b, 0x01, 0x0a, 0x08, 0x53, 0x68, 0x6f, 0x70, 0x44, 0x61, 0x74, 0x61, 0x12, 0x0e,
+	0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x12,
+	0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61,
+	0x6d, 0x65, 0x12, 0x2b, 0x0a, 0x08, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x03,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x4c, 0x6f, 0x63,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x08, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12,
+	0x28, 0x0a, 0x0f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x54, 0x69, 0x6d, 0x69,
+	0x6e, 0x67, 0x18, 0x04, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x54, 0x69, 0x6d, 0x69, 0x6e, 0x67, 0x12, 0x14, 0x0a, 0x05, 0x75, 0x73, 0x65,
+	0x72, 0x73, 0x18, 0x05, 0x20, 0x03, 0x28, 0x09, 0x52, 0x05, 0x75, 0x73, 0x65, 0x72, 0x73, 0x22,
+	0xa4, 0x01, 0x0a, 0x0b, 0x4e, 0x65, 0x77, 0x53, 0x68, 0x6f, 0x70, 0x44, 0x61, 0x74, 0x61, 0x12,
+	0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e,
+	0x61, 0x6d, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x05, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x12, 0x2b, 0x0a, 0x08, 0x6c, 0x6f, 0x63,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x70, 0x72,
 	0x6f, 0x74, 0x6f, 0x2e, 0x4c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x08, 0x6c, 0x6f,
 	0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x28, 0x0a, 0x0f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x54, 0x69, 0x6d, 0x69, 0x6e, 0x67, 0x18, 0x03, 0x20, 0x03, 0x28, 0x09, 0x52,
+	0x69, 0x6f, 0x6e, 0x54, 0x69, 0x6d, 0x69, 0x6e, 0x67, 0x18, 0x04, 0x20, 0x03, 0x28, 0x09, 0x52,
 	0x0f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x54, 0x69, 0x6d, 0x69, 0x6e, 0x67,
-	0x12, 0x14, 0x0a, 0x05, 0x75, 0x73, 0x65, 0x72, 0x73, 0x18, 0x04, 0x20, 0x03, 0x28, 0x09, 0x52,
+	0x12, 0x14, 0x0a, 0x05, 0x75, 0x73, 0x65, 0x72, 0x73, 0x18, 0x05, 0x20, 0x03, 0x28, 0x09, 0x52,
 	0x05, 0x75, 0x73, 0x65, 0x72, 0x73, 0x22, 0x46, 0x0a, 0x08, 0x4c, 0x6f, 0x63, 0x61, 0x74, 0x69,
 	0x6f, 0x6e, 0x12, 0x1c, 0x0a, 0x09, 0x6c, 0x61, 0x74, 0x74, 0x69, 0x74, 0x75, 0x64, 0x65, 0x18,
 	0x01, 0x20, 0x01, 0x28, 0x01, 0x52, 0x09, 0x6c, 0x61, 0x74, 0x74, 0x69, 0x74, 0x75, 0x64, 0x65,
@@ -370,26 +379,26 @@ var file_proto_shop_service_proto_rawDesc = []byte{
 }
 
 var (
-	file_proto_shop_service_proto_rawDescOnce sync.Once
-	file_proto_shop_service_proto_rawDescData = file_proto_shop_service_proto_rawDesc
+	file_shop_service_proto_rawDescOnce sync.Once
+	file_shop_service_proto_rawDescData = file_shop_service_proto_rawDesc
 )
 
-func file_proto_shop_service_proto_rawDescGZIP() []byte {
-	file_proto_shop_service_proto_rawDescOnce.Do(func() {
-		file_proto_shop_service_proto_rawDescData = protoimpl.X.CompressGZIP(file_proto_shop_service_proto_rawDescData)
+func file_shop_service_proto_rawDescGZIP() []byte {
+	file_shop_service_proto_rawDescOnce.Do(func() {
+		file_shop_service_proto_rawDescData = protoimpl.X.CompressGZIP(file_shop_service_proto_rawDescData)
 	})
-	return file_proto_shop_service_proto_rawDescData
+	return file_shop_service_proto_rawDescData
 }
 
-var file_proto_shop_service_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
-var file_proto_shop_service_proto_goTypes = []interface{}{
+var file_shop_service_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_shop_service_proto_goTypes = []interface{}{
 	(*Id)(nil),               // 0: proto.Id
 	(*ShopData)(nil),         // 1: proto.ShopData
 	(*NewShopData)(nil),      // 2: proto.NewShopData
 	(*Location)(nil),         // 3: proto.Location
 	(*MultipleShopData)(nil), // 4: proto.MultipleShopData
 }
-var file_proto_shop_service_proto_depIdxs = []int32{
+var file_shop_service_proto_depIdxs = []int32{
 	3, // 0: proto.ShopData.location:type_name -> proto.Location
 	3, // 1: proto.NewShopData.location:type_name -> proto.Location
 	1, // 2: proto.MultipleShopData.ShopData:type_name -> proto.ShopData
@@ -406,13 +415,13 @@ var file_proto_shop_service_proto_depIdxs = []int32{
 	0, // [0:3] is the sub-list for field type_name
 }
 
-func init() { file_proto_shop_service_proto_init() }
-func file_proto_shop_service_proto_init() {
-	if File_proto_shop_service_proto != nil {
+func init() { file_shop_service_proto_init() }
+func file_shop_service_proto_init() {
+	if File_shop_service_proto != nil {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_proto_shop_service_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_shop_service_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Id); i {
 			case 0:
 				return &v.state
@@ -424,7 +433,7 @@ func file_proto_shop_service_proto_init() {
 				return nil
 			}
 		}
-		file_proto_shop_service_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_shop_service_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ShopData); i {
 			case 0:
 				return &v.state
@@ -436,7 +445,7 @@ func file_proto_shop_service_proto_init() {
 				return nil
 			}
 		}
-		file_proto_shop_service_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_shop_service_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*NewShopData); i {
 			case 0:
 				return &v.state
@@ -448,7 +457,7 @@ func file_proto_shop_service_proto_init() {
 				return nil
 			}
 		}
-		file_proto_shop_service_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_shop_service_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Location); i {
 			case 0:
 				return &v.state
@@ -460,7 +469,7 @@ func file_proto_shop_service_proto_init() {
 				return nil
 			}
 		}
-		file_proto_shop_service_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+		file_shop_service_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*MultipleShopData); i {
 			case 0:
 				return &v.state
@@ -477,18 +486,18 @@ func file_proto_shop_service_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_proto_shop_service_proto_rawDesc,
+			RawDescriptor: file_shop_service_proto_rawDesc,
 			NumEnums:      0,
 			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_proto_shop_service_proto_goTypes,
-		DependencyIndexes: file_proto_shop_service_proto_depIdxs,
-		MessageInfos:      file_proto_shop_service_proto_msgTypes,
+		GoTypes:           file_shop_service_proto_goTypes,
+		DependencyIndexes: file_shop_service_proto_depIdxs,
+		MessageInfos:      file_shop_service_proto_msgTypes,
 	}.Build()
-	File_proto_shop_service_proto = out.File
-	file_proto_shop_service_proto_rawDesc = nil
-	file_proto_shop_service_proto_goTypes = nil
-	file_proto_shop_service_proto_depIdxs = nil
+	File_shop_service_proto = out.File
+	file_shop_service_proto_rawDesc = nil
+	file_shop_service_proto_goTypes = nil
+	file_shop_service_proto_depIdxs = nil
 }

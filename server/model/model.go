@@ -1,16 +1,22 @@
 package model
 
 import (
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"encoding/base64"
 )
 
 // Shop model
 type Shop struct {
-	ID               primitive.ObjectID   `bson:"_id,omitempty"`
-	Name             string               `bson:"shop_name"`
-	Location         Location             `bson:"location"`
-	OperationsTiming []string             `bson:"operations_timing"`
-	Users            []primitive.ObjectID `bson:"users"`
+	ID               string   `bson:"_id"`
+	Phone            string   `bson:"phone"`
+	Name             string   `bson:"shop_name"`
+	Location         Location `bson:"location"`
+	OperationsTiming []string `bson:"operations_timing"`
+	Users            []string `bson:"users"`
+}
+
+func (m *Shop) Id() string {
+	return base64.StdEncoding.EncodeToString([]byte(m.Phone))
+
 }
 
 type Location struct {
@@ -23,32 +29,21 @@ type Location struct {
 // 	ClosingTime string `bson:"closing_time"`
 // }
 
-type Product struct {
-	ID          primitive.ObjectID `bson:"_id,omitempty"`
-	Name        string             `bson:"product_name"`
-	Description string             `bson:"description"`
-	Category    string             `bson:"category"`
-	Price       int32              `bson:"price"`
-	ImageURL    string             `bson:"image_url"`
-	Attributes  map[string]string  `bson:"attributes"`
-	ShopID      primitive.ObjectID `bson:"shop_id"`
-}
-
 // InventoryItem represents a product in the shop's inventory
 type InventoryItem struct {
-	ProductID primitive.ObjectID `bson:"product_id"`
-	Quantity  int                `bson:"quantity"`
-	InStock   bool               `bson:"in_stock"`
+	ProductID string `bson:"product_id"`
+	Quantity  int    `bson:"quantity"`
+	InStock   bool   `bson:"in_stock"`
 }
 
 type ProductServiceability struct {
-	ID          primitive.ObjectID `bson:"_id,omitempty"`
-	ProductID   primitive.ObjectID `bson:"product_id"`
-	Serviceable bool               `bson:"serviceable"`
+	ID          string `bson:"_id"`
+	ProductID   string `bson:"product_id"`
+	Serviceable bool   `bson:"serviceable"`
 }
 
 type User struct {
-	ID       primitive.ObjectID `bson:"_id,omitempty"`
-	Name     string             `bson:"user_name"`
-	Location Location           `bson:"location"`
+	ID       string   `bson:"_id"`
+	Name     string   `bson:"user_name"`
+	Location Location `bson:"location"`
 }
